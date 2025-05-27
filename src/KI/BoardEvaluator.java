@@ -2,6 +2,10 @@ package KI;
 
 import Logic.Board;
 import Schachfiguren.*;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 /**
  * Evaluates chess board positions for the AI.
@@ -11,6 +15,8 @@ public class BoardEvaluator {
     private static final int CHECKMATE_VALUE = 10000;
     private static final int STALEMATE_VALUE = 0;
     
+    // Thread pool for parallelizing score calculations
+    private static final ExecutorService executorService = Executors.newFixedThreadPool(5);
     
     /**
      * Evaluates the current board position from the perspective of the given color.
@@ -21,11 +27,32 @@ public class BoardEvaluator {
      * @return The evaluation score
      */
     public static int evaluateBoard(Board board, String color) {
-        int materialScore = calculateMaterialScore(board, color);
-        int positionalScore = calculatePositionalScore(board, color);
-        int mobilityScore = calculateMobilityScore(board, color);
+   
+        Future<Integer> materialFuture = executorService.submit(() -> calculateMaterialScore(board, color));
+        Future<Integer> positionalFuture = executorService.submit(() -> calculatePositionalScore(board, color));
+        Future<Integer> mobilityFuture = executorService.submit(() -> calculateMobilityScore(board, color));
+
+        int materialScore = 0;
+        int positionalScore = 0;
+        int mobilityScore = 0;
+
+        try {
+            materialScore = materialFuture.get();
+            positionalScore = positionalFuture.get();
+            mobilityScore = mobilityFuture.get();
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace(); 
+            return materialScore + positionalScore + mobilityScore; // Return whatever was computed
+        }
         
         return materialScore + positionalScore + mobilityScore;
+    }
+    
+    /**
+     * Shuts down the executor service. Should be called when the application is closing.
+     */
+    public static void shutdownExecutorService() {
+        executorService.shutdown();
     }
     
     /**

@@ -8,6 +8,7 @@ import Logic.Zug;
 public class Bauer implements Schachfigur {
 
     private String farbe;
+    private boolean isWeiss; // True if white, false if black
     private int positionX;
     private int positionY;
     private Board board;
@@ -17,6 +18,7 @@ public class Bauer implements Schachfigur {
         this.positionX = x;
         this.positionY = y;
         this.board = board;
+        this.isWeiss = farbe.equals("Weiss");
     }
 
     @Override
@@ -26,7 +28,11 @@ public class Bauer implements Schachfigur {
 
     @Override
     public String getFarbe() {
-        return farbe;
+        if (isWeiss) {
+            return "Weiss";
+        } else {
+            return "Schwarz";
+        }
     }
 
     @Override
@@ -95,5 +101,15 @@ public class Bauer implements Schachfigur {
         // TODO: En passant logic would be added here
 
         return zuege.toArray(new Zug[0]);
+    }
+
+    @Override
+    public boolean isWeiss() {
+        return isWeiss;
+    }
+
+    @Override
+    public boolean isSchwarz() {
+        return !isWeiss;
     }
 }

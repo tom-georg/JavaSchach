@@ -8,12 +8,14 @@ import Logic.Zug;
 public class Koenig implements Schachfigur {
 
     private String farbe;
+    private boolean isWeiss; // True if white, false if black
     private int positionX;
     private int positionY;
     private Board board;
 
     public Koenig(String farbe, int x, int y, Board board) {
         this.farbe = farbe;
+        this.isWeiss = farbe.equals("Weiss");
         this.positionX = x;
         this.positionY = y;
         this.board = board;
@@ -26,7 +28,7 @@ public class Koenig implements Schachfigur {
 
     @Override
     public String getFarbe() {
-        return farbe;
+        return isWeiss ? "Weiss" : "Schwarz";
     }
 
     @Override
@@ -48,6 +50,16 @@ public class Koenig implements Schachfigur {
     @Override
     public int getWert() {
         return 999; // King's value is often considered infinite or not assigned a point value
+    }
+
+     @Override
+    public boolean isWeiss() {
+        return isWeiss;
+    }
+
+    @Override
+    public boolean isSchwarz() {
+        return !isWeiss;
     }
 
     @Override

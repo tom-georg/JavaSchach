@@ -39,6 +39,10 @@ public interface Schachfigur {
 
     Zug[] getMoeglicheZuege();
 
+    public boolean isWeiss();
+
+    public boolean isSchwarz();
+
 
 
 

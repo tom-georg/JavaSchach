@@ -6,6 +6,10 @@ import Schachfiguren.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.Vector;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 /**
  * Main AI implementation using minimax algorithm with alpha-beta pruning.
@@ -201,9 +205,10 @@ public class ChessAI implements AIPlayer {
      * Gets all possible moves for a given color.
      */
     private List<Zug> getAllPossibleMoves(Board board, String color) {
-        List<Zug> allMoves = new ArrayList<>(250);
-        
+        Vector<Zug> allMoves = new Vector<>(250);
+
         for (int x = 0; x < 8; x++) {
+            
             for (int y = 0; y < 8; y++) {
                 Schachfigur figur = board.getFigur(x, y);
                 if (figur != null && figur.getFarbe().equals(color)) {
