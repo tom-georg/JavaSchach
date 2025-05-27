@@ -11,6 +11,7 @@ public class BoardEvaluator {
     private static final int CHECKMATE_VALUE = 10000;
     private static final int STALEMATE_VALUE = 0;
     
+    
     /**
      * Evaluates the current board position from the perspective of the given color.
      * Positive values favor the given color, negative values favor the opponent.

@@ -201,7 +201,7 @@ public class ChessAI implements AIPlayer {
      * Gets all possible moves for a given color.
      */
     private List<Zug> getAllPossibleMoves(Board board, String color) {
-        List<Zug> allMoves = new ArrayList<>();
+        List<Zug> allMoves = new ArrayList<>(250);
         
         for (int x = 0; x < 8; x++) {
             for (int y = 0; y < 8; y++) {
