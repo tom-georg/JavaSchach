@@ -1,6 +1,6 @@
+package KI;
 import Logic.Board;
 import Logic.Zug;
-import KI.ChessAI;
 
 public class TestAIMove {
     public static void main(String[] args) {

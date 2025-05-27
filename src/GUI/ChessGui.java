@@ -126,8 +126,7 @@ public class ChessGui extends JFrame {
         // Difficulty ComboBox
         String[] difficulties = {
             "Easy (1)", "Easy-Medium (2)", "Medium (3)", "Medium-Hard (4)", "Hard (5)",
-            "Very Hard (6)", "Expert (7)", "Master (8)", "Grandmaster (9)", "World Class (10)",
-            "Superhuman (11)", "Engine Level 12", "Engine Level 13", "Engine Level 14", "Maximum (15)"
+            "Very Hard (6)"
         };
         difficultyComboBox = new JComboBox<>(difficulties);
         difficultyComboBox.setSelectedIndex(2); // Default to medium (3)

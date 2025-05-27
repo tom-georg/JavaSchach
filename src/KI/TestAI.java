@@ -1,4 +1,4 @@
-import KI.ChessAI;
+package KI;
 import Logic.Board;
 import Logic.Zug;
 

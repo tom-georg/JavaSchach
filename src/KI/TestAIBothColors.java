@@ -1,6 +1,6 @@
+package KI;
 import Logic.Board;
 import Logic.Zug;
-import KI.ChessAI;
 
 public class TestAIBothColors {
     public static void main(String[] args) {

@@ -1,6 +1,6 @@
+package KI;
 import Logic.Board;
 import Logic.Zug;
-import KI.ChessAI;
 
 /**
  * Test class to verify that the AI can handle high difficulty levels
