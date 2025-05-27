@@ -14,6 +14,15 @@ public class Board {
         zugHistorie = new ArrayList<>();
         initializeBoard();
     }
+    
+    // Constructor for creating empty board (used for copying)
+    public Board(boolean initialize) {
+        board = new Schachfigur[8][8];
+        zugHistorie = new ArrayList<>();
+        if (initialize) {
+            initializeBoard();
+        }
+    }
 
     private void initializeBoard() {
         // Initialize pawns
@@ -146,6 +155,47 @@ public class Board {
                 // though for a captured piece, its position on board is what matters.
                 // capturedFigur.setPosition(zielX, zielY); // This might not be necessary if it's re-added correctly
             }
+        }
+    }
+
+    /**
+     * Creates a copy of this board for AI simulation purposes.
+     * @return A new Board instance with the same piece positions
+     */
+    public Board copy() {
+        Board copy = new Board(false); // Create empty board
+        
+        // Copy all pieces to their exact positions
+        for (int x = 0; x < 8; x++) {
+            for (int y = 0; y < 8; y++) {
+                Schachfigur originalPiece = getFigur(x, y);
+                if (originalPiece != null) {
+                    Schachfigur newPiece = createPieceCopy(originalPiece, copy);
+                    copy.setPieceAt(x, y, newPiece);
+                }
+            }
+        }
+        
+        return copy;
+    }
+    
+    /**
+     * Creates a copy of a chess piece for the copied board.
+     */
+    private Schachfigur createPieceCopy(Schachfigur original, Board newBoard) {
+        String name = original.getName();
+        String color = original.getFarbe();
+        int x = original.getPositionX();
+        int y = original.getPositionY();
+        
+        switch (name) {
+            case "Bauer": return new Bauer(color, x, y, newBoard);
+            case "Turm": return new Turm(color, x, y, newBoard);
+            case "Springer": return new Springer(color, x, y, newBoard);
+            case "Laeufer": return new Laeufer(color, x, y, newBoard);
+            case "Dame": return new Dame(color, x, y, newBoard);
+            case "Koenig": return new Koenig(color, x, y, newBoard);
+            default: return null;
         }
     }
 
