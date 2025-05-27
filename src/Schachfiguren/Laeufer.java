@@ -7,14 +7,14 @@ import Logic.Zug;
 
 public class Laeufer implements Schachfigur {
 
-    private String farbe;
+
     private boolean isWeiss; // True if white, false if black
     private int positionX;
     private int positionY;
     private Board board;
 
     public Laeufer(String farbe, int x, int y, Board board) {
-        this.farbe = farbe;
+
         this.isWeiss = farbe.equals("Weiss");
         this.positionX = x;
         this.positionY = y;

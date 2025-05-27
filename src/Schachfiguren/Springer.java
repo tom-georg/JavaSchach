@@ -7,14 +7,14 @@ import Logic.Zug;
 
 public class Springer implements Schachfigur {
 
-    private String farbe;
+ 
     private boolean isWeiss; // True if white, false if black
     private int positionX;
     private int positionY;
     private Board board;
 
     public Springer(String farbe, int x, int y, Board board) {
-        this.farbe = farbe;
+
         this.isWeiss = farbe.equals("Weiss");
         this.positionX = x;
         this.positionY = y;
@@ -76,7 +76,7 @@ public class Springer implements Schachfigur {
                 Schachfigur zielFigur = board.getFigur(zielX, zielY);
                 if (zielFigur == null) {
                     zuege.add(new Zug(this, zielX, zielY));
-                } else if (!zielFigur.getFarbe().equals(this.farbe)) {
+                } else if (!zielFigur.isWeiss() == isWeiss) {
                     zuege.add(new Zug(this, zielX, zielY, zielFigur));
                 }
             }

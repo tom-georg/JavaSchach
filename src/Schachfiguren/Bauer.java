@@ -60,7 +60,7 @@ public class Bauer implements Schachfigur {
     public Zug[] getMoeglicheZuege() {
         List<Zug> zuege = new ArrayList<>();
         int zielX, zielY;
-        int richtung = farbe.equals("Schwarz") ? 1 : -1; // Schwarz moves +1 in Y, Weiss moves -1 in Y
+        int richtung = isSchwarz() ? 1 : -1; // Schwarz moves +1 in Y, Weiss moves -1 in Y
 
         // Forward 1
         zielX = positionX;
@@ -69,7 +69,7 @@ public class Bauer implements Schachfigur {
             zuege.add(new Zug(this, zielX, zielY));
 
             // Forward 2 (initial move)
-            boolean isInitialPosition = (farbe.equals("Schwarz") && positionY == 1) || (farbe.equals("Weiss") && positionY == 6);
+            boolean isInitialPosition = (isSchwarz() && positionY == 1) || (isWeiss() && positionY == 6);
             if (isInitialPosition) {
                 zielY = positionY + 2 * richtung;
                 if (zielY >= 0 && zielY < 8 && board.getFigur(zielX, zielY) == null && board.getFigur(zielX, positionY + richtung) == null) {
@@ -85,7 +85,7 @@ public class Bauer implements Schachfigur {
             zielX = positionX - 1;
             if (zielX >= 0) {
                 Schachfigur zielFigur = board.getFigur(zielX, zielY);
-                if (zielFigur != null && !zielFigur.getFarbe().equals(this.farbe)) {
+                if (zielFigur != null && !zielFigur.isWeiss() == isWeiss) {
                     zuege.add(new Zug(this, zielX, zielY, zielFigur));
                 }
             }
@@ -93,7 +93,7 @@ public class Bauer implements Schachfigur {
             zielX = positionX + 1;
             if (zielX < 8) {
                 Schachfigur zielFigur = board.getFigur(zielX, zielY);
-                if (zielFigur != null && !zielFigur.getFarbe().equals(this.farbe)) {
+                if (zielFigur != null && !zielFigur.isWeiss() == isWeiss) {
                     zuege.add(new Zug(this, zielX, zielY, zielFigur));
                 }
             }
