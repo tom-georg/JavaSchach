@@ -1,3 +1,6 @@
+package Logic;
+
+import Schachfiguren.*;
 public class Zug {
     
     private Schachfigur figur;

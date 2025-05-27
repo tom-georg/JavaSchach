@@ -1,14 +1,18 @@
+package Schachfiguren;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Laeufer implements Schachfigur {
+import Logic.Board;
+import Logic.Zug;
+
+public class Turm implements Schachfigur {
 
     private String farbe;
     private int positionX;
     private int positionY;
     private Board board;
 
-    public Laeufer(String farbe, int x, int y, Board board) {
+    public Turm(String farbe, int x, int y, Board board) {
         this.farbe = farbe;
         this.positionX = x;
         this.positionY = y;
@@ -17,7 +21,7 @@ public class Laeufer implements Schachfigur {
 
     @Override
     public String getName() {
-        return "Laeufer";
+        return "Turm";
     }
 
     @Override
@@ -43,13 +47,13 @@ public class Laeufer implements Schachfigur {
 
     @Override
     public int getWert() {
-        return 3;
+        return 5;
     }
 
     @Override
     public Zug[] getMoeglicheZuege() {
         List<Zug> zuege = new ArrayList<>();
-        int[][] directions = {{1, 1}, {1, -1}, {-1, 1}, {-1, -1}}; // Diagonal directions
+        int[][] directions = {{0, 1}, {0, -1}, {1, 0}, {-1, 0}}; // Up, Down, Right, Left
 
         for (int[] dir : directions) {
             for (int i = 1; i < 8; i++) {

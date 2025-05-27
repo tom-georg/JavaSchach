@@ -1,5 +1,8 @@
+package Logic;
 import java.util.ArrayList;
 import java.util.List;
+
+import Schachfiguren.*;
 
 public class Board {
 

@@ -1,3 +1,6 @@
+package Schachfiguren;
+
+import Logic.Zug;
 
 public interface Schachfigur {
 

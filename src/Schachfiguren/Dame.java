@@ -1,5 +1,9 @@
+package Schachfiguren;
 import java.util.ArrayList;
 import java.util.List;
+
+import Logic.Board;
+import Logic.Zug;
 
 public class Dame implements Schachfigur {
 

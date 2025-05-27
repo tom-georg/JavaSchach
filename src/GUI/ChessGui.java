@@ -1,4 +1,11 @@
+package GUI;
 import javax.swing.*;
+
+import Logic.Board;
+import Logic.Zug;
+import Schachfiguren.*;
+
+
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;

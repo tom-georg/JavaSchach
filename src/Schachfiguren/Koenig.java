@@ -1,14 +1,18 @@
+package Schachfiguren;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Springer implements Schachfigur {
+import Logic.Board;
+import Logic.Zug;
+
+public class Koenig implements Schachfigur {
 
     private String farbe;
     private int positionX;
     private int positionY;
     private Board board;
 
-    public Springer(String farbe, int x, int y, Board board) {
+    public Koenig(String farbe, int x, int y, Board board) {
         this.farbe = farbe;
         this.positionX = x;
         this.positionY = y;
@@ -17,7 +21,7 @@ public class Springer implements Schachfigur {
 
     @Override
     public String getName() {
-        return "Springer";
+        return "Koenig";
     }
 
     @Override
@@ -43,14 +47,14 @@ public class Springer implements Schachfigur {
 
     @Override
     public int getWert() {
-        return 3;
+        return 999; // King's value is often considered infinite or not assigned a point value
     }
 
     @Override
     public Zug[] getMoeglicheZuege() {
         List<Zug> zuege = new ArrayList<>();
-        int[] dx = {-2, -2, -1, -1, 1, 1, 2, 2};
-        int[] dy = {-1, 1, -2, 2, -2, 2, -1, 1};
+        int[] dx = {-1, -1, -1, 0, 0, 1, 1, 1};
+        int[] dy = {-1, 0, 1, -1, 1, -1, 0, 1};
 
         for (int i = 0; i < 8; i++) {
             int zielX = positionX + dx[i];
@@ -65,6 +69,7 @@ public class Springer implements Schachfigur {
                 }
             }
         }
+        // TODO: Implement castling logic
         return zuege.toArray(new Zug[0]);
     }
 }
