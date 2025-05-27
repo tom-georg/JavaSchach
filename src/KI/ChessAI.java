@@ -14,10 +14,10 @@ public class ChessAI implements AIPlayer {
     
     private int difficulty;
     private Random random;
-    private static final int MAX_DEPTH = 10;
+    private static final int MAX_DEPTH = 15; // Maximum search depth
     
     public ChessAI(int difficulty) {
-        this.difficulty = Math.max(1, Math.min(5, difficulty));
+        this.difficulty = Math.max(1, difficulty); // Remove upper limit
         this.random = new Random();
     }
     
@@ -40,7 +40,8 @@ public class ChessAI implements AIPlayer {
             // Easy-Medium: Simple evaluation with shallow search
             return getBestMoveSimple(board, allMoves, color);
         } else {
-            // Medium-Hard: Full minimax with alpha-beta pruning
+            // Medium-Hard and beyond: Full minimax with alpha-beta pruning
+            // Higher difficulty = deeper search
             return getBestMoveMinimax(board, allMoves, color, searchDepth);
         }
     }
@@ -225,6 +226,6 @@ public class ChessAI implements AIPlayer {
     
     @Override
     public void setDifficulty(int difficulty) {
-        this.difficulty = Math.max(1, Math.min(5, difficulty));
+        this.difficulty = Math.max(1, difficulty); // Remove upper limit
     }
 }
