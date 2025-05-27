@@ -76,7 +76,7 @@ public class Koenig implements Schachfigur {
                 Schachfigur zielFigur = board.getFigur(zielX, zielY);
                 if (zielFigur == null) {
                     zuege.add(new Zug(this, zielX, zielY));
-                } else if (!zielFigur.getFarbe().equals(this.farbe)) {
+                } else if (!zielFigur.isWeiss() == isWeiss) {
                     zuege.add(new Zug(this, zielX, zielY, zielFigur));
                 }
             }

@@ -77,7 +77,7 @@ public class Laeufer implements Schachfigur {
                     if (zielFigur == null) {
                         zuege.add(new Zug(this, zielX, zielY));
                     } else {
-                        if (!zielFigur.getFarbe().equals(this.farbe)) {
+                        if (!zielFigur.isWeiss() == isWeiss) {
                             zuege.add(new Zug(this, zielX, zielY, zielFigur));
                         }
                         break; // Stop in this direction if a piece is encountered

@@ -16,6 +16,7 @@ public interface Schachfigur {
      *
      * @return die Farbe der Schachfigur
      */
+    @Deprecated
     String getFarbe();
 
     int getPositionX();
