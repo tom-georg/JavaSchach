@@ -1,6 +1,5 @@
 package Schachfiguren;
 import java.util.ArrayList;
-import java.util.List;
 
 import Logic.Board;
 import Logic.Zug;
@@ -29,12 +28,12 @@ public class Turm extends Schachfigur {
 
 
     @Override
-    public Zug[] getMoeglicheZuege() {
+    public ArrayList<Zug> getMoeglicheZuege() {
         int positionX = getPositionX();
         int positionY = getPositionY();
         Board board = super.getBoard();
         boolean isWeiss = isWeiss();
-        List<Zug> zuege = new ArrayList<>();
+        ArrayList<Zug> zuege = new ArrayList<>();
         int[][] directions = {{0, 1}, {0, -1}, {1, 0}, {-1, 0}}; // Up, Down, Right, Left
 
         for (int[] dir : directions) {
@@ -57,6 +56,6 @@ public class Turm extends Schachfigur {
                 }
             }
         }
-        return zuege.toArray(new Zug[0]);
+        return zuege;
     }
 }

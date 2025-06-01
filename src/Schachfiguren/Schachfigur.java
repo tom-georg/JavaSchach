@@ -2,6 +2,7 @@ package Schachfiguren;
 
 import Logic.Board;
 import Logic.Zug;
+import java.util.ArrayList;
 
 public abstract class Schachfigur {
 
@@ -71,7 +72,7 @@ public abstract class Schachfigur {
      */
     public abstract int getWert();
 
-    public abstract Zug[] getMoeglicheZuege();
+    public abstract ArrayList<Zug> getMoeglicheZuege();
 
     public  boolean isWeiss() {
         return farbe;

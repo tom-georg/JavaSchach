@@ -1,6 +1,5 @@
 package Schachfiguren;
 import java.util.ArrayList;
-import java.util.List;
 
 import Logic.Board;
 import Logic.Zug;
@@ -28,10 +27,10 @@ public class Bauer extends Schachfigur {
     }
 
     @Override
-    public Zug[] getMoeglicheZuege() {
+    public ArrayList<Zug> getMoeglicheZuege() {
         Board board = super.getBoard();
         boolean farbe = isWeiss();
-        List<Zug> zuege = new ArrayList<>();
+        ArrayList<Zug> zuege = new ArrayList<>();
         int zielX, zielY;
         int richtung = isSchwarz() ? 1 : -1; // Schwarz moves +1 in Y, Weiss moves -1 in Y
 
@@ -75,7 +74,7 @@ public class Bauer extends Schachfigur {
         }
         // TODO: En passant logic would be added here
 
-        return zuege.toArray(new Zug[0]);
+        return zuege;
     }
 
 

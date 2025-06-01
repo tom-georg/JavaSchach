@@ -10,6 +10,7 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.net.URL;
@@ -83,7 +84,7 @@ public class ChessGui extends JFrame {
 
                 // Highlight possible moves if a piece is selected
                 if (selectedFigur != null) {
-                    Zug[] moeglicheZuege = selectedFigur.getMoeglicheZuege();
+                    ArrayList<Zug> moeglicheZuege = selectedFigur.getMoeglicheZuege();
                     if (moeglicheZuege != null) {
                         g2d.setColor(new Color(20, 80, 200, 100)); // Semi-transparent blue for highlighting
                         for (Zug zug : moeglicheZuege) {
@@ -281,7 +282,7 @@ public class ChessGui extends JFrame {
             for (int y = 0; y < 8 && !hasLegalMoves; y++) {
                 Schachfigur figur = board.getFigur(x, y);
                 if (figur != null && figur.getFarbeString().equals(currentTurn)) {
-                    if (figur.getMoeglicheZuege().length > 0) {
+                    if (figur.getMoeglicheZuege().size() > 0) {
                         hasLegalMoves = true;
                     }
                 }
@@ -403,7 +404,7 @@ public class ChessGui extends JFrame {
                 } else { // A piece is already selected (selectedFigur != null), try to move it
                     boolean isValidTarget = false;
                     Zug chosenZug = null;
-                    Zug[] possibleMoves = selectedFigur.getMoeglicheZuege();
+                    ArrayList<Zug> possibleMoves = selectedFigur.getMoeglicheZuege();
                     if (possibleMoves != null) {
                         for (Zug zug : possibleMoves) {
                             if (zug.getZielX() == boardX && zug.getZielY() == boardY) {
@@ -463,7 +464,7 @@ public class ChessGui extends JFrame {
                 int boardY = e.getY() / SQUARE_SIZE;
 
                 if (boardX >= 0 && boardX < 8 && boardY >= 0 && boardY < 8) {
-                    Zug[] possibleMoves = selectedFigur.getMoeglicheZuege();
+                    ArrayList<Zug> possibleMoves = selectedFigur.getMoeglicheZuege();
                     Zug chosenZug = null;
                     if (possibleMoves != null) {
                         for (Zug zug : possibleMoves) {

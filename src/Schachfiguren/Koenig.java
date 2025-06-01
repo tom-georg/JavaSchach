@@ -1,6 +1,5 @@
 package Schachfiguren;
 import java.util.ArrayList;
-import java.util.List;
 
 import Logic.Board;
 import Logic.Zug;
@@ -29,12 +28,12 @@ public class Koenig extends Schachfigur {
 
   
     @Override
-    public Zug[] getMoeglicheZuege() {
+    public ArrayList<Zug> getMoeglicheZuege() {
         int positionX = getPositionX();
         int positionY = getPositionY();
         Board board = super.getBoard();
         boolean farbe = isWeiss();
-        List<Zug> zuege = new ArrayList<>();
+        ArrayList<Zug> zuege = new ArrayList<>();
         int[] dx = {-1, -1, -1, 0, 0, 1, 1, 1};
         int[] dy = {-1, 0, 1, -1, 1, -1, 0, 1};
 
@@ -52,6 +51,6 @@ public class Koenig extends Schachfigur {
             }
         }
         // TODO: Implement castling logic
-        return zuege.toArray(new Zug[0]);
+        return zuege;
     }
 }

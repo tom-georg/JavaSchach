@@ -181,7 +181,7 @@ public class BoardEvaluator {
             for (int y = 0; y < 8; y++) {
                 Schachfigur figur = board.getFigur(x, y);
                 if (figur != null) {
-                    int moveCount = figur.getMoeglicheZuege().length;
+                    int moveCount = figur.getMoeglicheZuege().size();
                     
                     if (figur.getFarbeString().equals(color)) {
                         ourMobility += moveCount;
@@ -204,7 +204,7 @@ public class BoardEvaluator {
             for (int y = 0; y < 8; y++) {
                 Schachfigur figur = board.getFigur(x, y);
                 if (figur != null && figur.getFarbeString().equals(color)) {
-                    if (figur.getMoeglicheZuege().length > 0) {
+                    if (figur.getMoeglicheZuege().size() > 0) {
                         return false; // Has at least one legal move
                     }
                 }
