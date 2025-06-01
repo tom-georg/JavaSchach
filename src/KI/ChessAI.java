@@ -211,7 +211,7 @@ public class ChessAI implements AIPlayer {
             
             for (int y = 0; y < 8; y++) {
                 Schachfigur figur = board.getFigur(x, y);
-                if (figur != null && figur.getFarbe().equals(color)) {
+                if (figur != null && figur.getFarbeString().equals(color)) {
                     Zug[] moves = figur.getMoeglicheZuege();
                     for (Zug move : moves) {
                         allMoves.add(move);

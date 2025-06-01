@@ -5,20 +5,13 @@ import java.util.List;
 import Logic.Board;
 import Logic.Zug;
 
-public class Dame implements Schachfigur {
+public class Dame extends Schachfigur {
 
 
-    private boolean isWeiss; // True if white, false if black
-    private int positionX;
-    private int positionY;
-    private Board board;
 
     public Dame(String farbe, int x, int y, Board board) {
+        super(farbe, x, y, board);
 
-        this.positionX = x;
-        this.positionY = y;
-        this.board = board;
-        this.isWeiss = farbe.equals("Weiss");
     }
 
     @Override
@@ -26,49 +19,20 @@ public class Dame implements Schachfigur {
         return "Dame";
     }
 
-    @Deprecated
-    @Override
-    public String getFarbe() {
-        if (isWeiss) {
-            return "Weiss";
-        } else {
-            return "Schwarz";
-        }
-    }
 
-    @Override
-    public int getPositionX() {
-        return positionX;
-    }
-
-    @Override
-    public int getPositionY() {
-        return positionY;
-    }
-
-    @Override
-    public void setPosition(int x, int y) {
-        this.positionX = x;
-        this.positionY = y;
-    }
 
     @Override
     public int getWert() {
-        return 9;
+        return 90;
     }
 
-     @Override
-    public boolean isWeiss() {
-        return isWeiss;
-    }
-
-    @Override
-    public boolean isSchwarz() {
-        return !isWeiss;
-    }
 
     @Override
     public Zug[] getMoeglicheZuege() {
+        int positionX = getPositionX();
+        int positionY = getPositionY();
+        Board board = super.getBoard();
+        boolean isWeiss = isWeiss();
         List<Zug> zuege = new ArrayList<>();
         // Combines Rook and Bishop logic
         int[][] directions = {

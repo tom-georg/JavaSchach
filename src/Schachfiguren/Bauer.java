@@ -5,66 +5,41 @@ import java.util.List;
 import Logic.Board;
 import Logic.Zug;
 
-public class Bauer implements Schachfigur {
+public class Bauer extends Schachfigur {
 
-    private String farbe;
-    private boolean isWeiss; // True if white, false if black
-    private int positionX;
-    private int positionY;
-    private Board board;
+    
+
 
     public Bauer(String farbe, int x, int y, Board board) {
-        this.farbe = farbe;
-        this.positionX = x;
-        this.positionY = y;
-        this.board = board;
-        this.isWeiss = farbe.equals("Weiss");
+        super(farbe, x, y, board);
+       
     }
+
 
     @Override
     public String getName() {
         return "Bauer";
     }
 
-    @Override
-    public String getFarbe() {
-        if (isWeiss) {
-            return "Weiss";
-        } else {
-            return "Schwarz";
-        }
-    }
-
-    @Override
-    public int getPositionX() {
-        return positionX;
-    }
-
-    @Override
-    public int getPositionY() {
-        return positionY;
-    }
-
-    @Override
-    public void setPosition(int x, int y) {
-        this.positionX = x;
-        this.positionY = y;
-    }
 
     @Override
     public int getWert() {
-        return 1;
+        return 10;
     }
 
     @Override
     public Zug[] getMoeglicheZuege() {
+        Board board = super.getBoard();
+        boolean farbe = isWeiss();
         List<Zug> zuege = new ArrayList<>();
         int zielX, zielY;
         int richtung = isSchwarz() ? 1 : -1; // Schwarz moves +1 in Y, Weiss moves -1 in Y
 
+        int positionX = getPositionX();
+        int positionY = getPositionY();
         // Forward 1
-        zielX = positionX;
-        zielY = positionY + richtung;
+        zielX = getPositionX();
+        zielY = getPositionY() + richtung;
         if (zielY >= 0 && zielY < 8 && board.getFigur(zielX, zielY) == null) {
             zuege.add(new Zug(this, zielX, zielY));
 
@@ -85,7 +60,7 @@ public class Bauer implements Schachfigur {
             zielX = positionX - 1;
             if (zielX >= 0) {
                 Schachfigur zielFigur = board.getFigur(zielX, zielY);
-                if (zielFigur != null && !zielFigur.isWeiss() == isWeiss) {
+                if (zielFigur != null && !zielFigur.isWeiss() == farbe) {
                     zuege.add(new Zug(this, zielX, zielY, zielFigur));
                 }
             }
@@ -93,7 +68,7 @@ public class Bauer implements Schachfigur {
             zielX = positionX + 1;
             if (zielX < 8) {
                 Schachfigur zielFigur = board.getFigur(zielX, zielY);
-                if (zielFigur != null && !zielFigur.isWeiss() == isWeiss) {
+                if (zielFigur != null && !zielFigur.isWeiss() == farbe) {
                     zuege.add(new Zug(this, zielX, zielY, zielFigur));
                 }
             }
@@ -103,13 +78,5 @@ public class Bauer implements Schachfigur {
         return zuege.toArray(new Zug[0]);
     }
 
-    @Override
-    public boolean isWeiss() {
-        return isWeiss;
-    }
 
-    @Override
-    public boolean isSchwarz() {
-        return !isWeiss;
-    }
 }

@@ -5,20 +5,12 @@ import java.util.List;
 import Logic.Board;
 import Logic.Zug;
 
-public class Laeufer implements Schachfigur {
+public class Laeufer extends Schachfigur {
 
-
-    private boolean isWeiss; // True if white, false if black
-    private int positionX;
-    private int positionY;
-    private Board board;
 
     public Laeufer(String farbe, int x, int y, Board board) {
-
-        this.isWeiss = farbe.equals("Weiss");
-        this.positionX = x;
-        this.positionY = y;
-        this.board = board;
+        super(farbe, x, y, board);
+  
     }
 
     @Override
@@ -26,44 +18,22 @@ public class Laeufer implements Schachfigur {
         return "Laeufer";
     }
 
-    @Override
-    public String getFarbe() {
-        return isWeiss ? "Weiss" : "Schwarz";
-    }
 
-    @Override
-    public int getPositionX() {
-        return positionX;
-    }
 
-    @Override
-    public int getPositionY() {
-        return positionY;
-    }
-
-    @Override
-    public void setPosition(int x, int y) {
-        this.positionX = x;
-        this.positionY = y;
-    }
 
     @Override
     public int getWert() {
-        return 3;
+        return 30;
     }
 
-        @Override
-    public boolean isWeiss() {
-        return isWeiss;
-    }
 
-    @Override
-    public boolean isSchwarz() {
-        return !isWeiss;
-    }
 
     @Override
     public Zug[] getMoeglicheZuege() {
+        int positionX = getPositionX();
+        int positionY = getPositionY();
+        Board board = super.getBoard();
+        boolean isWeiss = isWeiss();
         List<Zug> zuege = new ArrayList<>();
         int[][] directions = {{1, 1}, {1, -1}, {-1, 1}, {-1, -1}}; // Diagonal directions
 

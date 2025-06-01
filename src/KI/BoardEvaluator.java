@@ -66,7 +66,7 @@ public class BoardEvaluator {
                 Schachfigur figur = board.getFigur(x, y);
                 if (figur != null) {
                     int pieceValue = figur.getWert();
-                    if (figur.getFarbe().equals(color)) {
+                    if (figur.getFarbeString().equals(color)) {
                         score += pieceValue;
                     } else {
                         score -= pieceValue;
@@ -90,7 +90,7 @@ public class BoardEvaluator {
                 if (figur != null) {
                     int positionalValue = getPositionalValue(figur, x, y);
                     
-                    if (figur.getFarbe().equals(color)) {
+                    if (figur.getFarbeString().equals(color)) {
                         score += positionalValue;
                     } else {
                         score -= positionalValue;
@@ -107,7 +107,7 @@ public class BoardEvaluator {
      */
     private static int getPositionalValue(Schachfigur figur, int x, int y) {
         // Adjust coordinates for black pieces (flip the board)
-        int adjustedY = figur.getFarbe().equals("Schwarz") ? 7 - y : y;
+        int adjustedY = figur.getFarbeString().equals("Schwarz") ? 7 - y : y;
         
         try {
             switch (figur.getName()) {
@@ -183,7 +183,7 @@ public class BoardEvaluator {
                 if (figur != null) {
                     int moveCount = figur.getMoeglicheZuege().length;
                     
-                    if (figur.getFarbe().equals(color)) {
+                    if (figur.getFarbeString().equals(color)) {
                         ourMobility += moveCount;
                     } else {
                         opponentMobility += moveCount;
@@ -203,7 +203,7 @@ public class BoardEvaluator {
         for (int x = 0; x < 8; x++) {
             for (int y = 0; y < 8; y++) {
                 Schachfigur figur = board.getFigur(x, y);
-                if (figur != null && figur.getFarbe().equals(color)) {
+                if (figur != null && figur.getFarbeString().equals(color)) {
                     if (figur.getMoeglicheZuege().length > 0) {
                         return false; // Has at least one legal move
                     }
@@ -229,7 +229,7 @@ public class BoardEvaluator {
         for (int x = 0; x < 8; x++) {
             for (int y = 0; y < 8; y++) {
                 Schachfigur figur = board.getFigur(x, y);
-                if (figur != null && figur.getName().equals("Koenig") && figur.getFarbe().equals(color)) {
+                if (figur != null && figur.getName().equals("Koenig") && figur.getFarbeString().equals(color)) {
                     // Check if any opponent piece can attack this square
                     return isSquareUnderAttack(board, x, y, color);
                 }
@@ -247,7 +247,7 @@ public class BoardEvaluator {
         for (int bx = 0; bx < 8; bx++) {
             for (int by = 0; by < 8; by++) {
                 Schachfigur figur = board.getFigur(bx, by);
-                if (figur != null && figur.getFarbe().equals(attackingColor)) {
+                if (figur != null && figur.getFarbeString().equals(attackingColor)) {
                     // Check if this piece can attack the target square
                     for (Logic.Zug zug : figur.getMoeglicheZuege()) {
                         if (zug.getZielX() == x && zug.getZielY() == y) {

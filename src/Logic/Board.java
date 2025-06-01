@@ -184,7 +184,7 @@ public class Board {
      */
     private Schachfigur createPieceCopy(Schachfigur original, Board newBoard) {
         String name = original.getName();
-        String color = original.getFarbe();
+        String color = original.getFarbeString();
         int x = original.getPositionX();
         int y = original.getPositionY();
         

@@ -280,7 +280,7 @@ public class ChessGui extends JFrame {
         for (int x = 0; x < 8 && !hasLegalMoves; x++) {
             for (int y = 0; y < 8 && !hasLegalMoves; y++) {
                 Schachfigur figur = board.getFigur(x, y);
-                if (figur != null && figur.getFarbe().equals(currentTurn)) {
+                if (figur != null && figur.getFarbeString().equals(currentTurn)) {
                     if (figur.getMoeglicheZuege().length > 0) {
                         hasLegalMoves = true;
                     }
@@ -353,7 +353,7 @@ public class ChessGui extends JFrame {
 
     private ImageIcon getPieceIcon(Schachfigur figur) {
         if (figur == null) return null;
-        String key = figur.getName() + figur.getFarbe();
+        String key = figur.getName() + figur.getFarbeString();
         return pieceImages.get(key);
     }
 
@@ -388,7 +388,7 @@ public class ChessGui extends JFrame {
 
                 if (selectedFigur == null) { // No piece currently selected
                     // Only allow selecting pieces of the current player's color
-                    if (figurOnSquare != null && figurOnSquare.getFarbe().equals(currentTurn)) {
+                    if (figurOnSquare != null && figurOnSquare.getFarbeString().equals(currentTurn)) {
                         selectedFigur = figurOnSquare;
 
                         ImageIcon icon = getPieceIcon(selectedFigur);

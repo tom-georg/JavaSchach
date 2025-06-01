@@ -5,20 +5,14 @@ import java.util.List;
 import Logic.Board;
 import Logic.Zug;
 
-public class Koenig implements Schachfigur {
+public class Koenig extends Schachfigur {
 
 
-    private boolean isWeiss; // True if white, false if black
-    private int positionX;
-    private int positionY;
-    private Board board;
+   
 
     public Koenig(String farbe, int x, int y, Board board) {
-
-        this.isWeiss = farbe.equals("Weiss");
-        this.positionX = x;
-        this.positionY = y;
-        this.board = board;
+        super(farbe, x, y, board);
+ 
     }
 
     @Override
@@ -26,44 +20,20 @@ public class Koenig implements Schachfigur {
         return "Koenig";
     }
 
-    @Override
-    public String getFarbe() {
-        return isWeiss ? "Weiss" : "Schwarz";
-    }
 
-    @Override
-    public int getPositionX() {
-        return positionX;
-    }
-
-    @Override
-    public int getPositionY() {
-        return positionY;
-    }
-
-    @Override
-    public void setPosition(int x, int y) {
-        this.positionX = x;
-        this.positionY = y;
-    }
 
     @Override
     public int getWert() {
         return 999; // King's value is often considered infinite or not assigned a point value
     }
 
-     @Override
-    public boolean isWeiss() {
-        return isWeiss;
-    }
-
-    @Override
-    public boolean isSchwarz() {
-        return !isWeiss;
-    }
-
+  
     @Override
     public Zug[] getMoeglicheZuege() {
+        int positionX = getPositionX();
+        int positionY = getPositionY();
+        Board board = super.getBoard();
+        boolean farbe = isWeiss();
         List<Zug> zuege = new ArrayList<>();
         int[] dx = {-1, -1, -1, 0, 0, 1, 1, 1};
         int[] dy = {-1, 0, 1, -1, 1, -1, 0, 1};
@@ -76,7 +46,7 @@ public class Koenig implements Schachfigur {
                 Schachfigur zielFigur = board.getFigur(zielX, zielY);
                 if (zielFigur == null) {
                     zuege.add(new Zug(this, zielX, zielY));
-                } else if (!zielFigur.isWeiss() == isWeiss) {
+                } else if (!zielFigur.isWeiss() == farbe) {
                     zuege.add(new Zug(this, zielX, zielY, zielFigur));
                 }
             }
