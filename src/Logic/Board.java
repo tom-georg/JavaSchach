@@ -199,5 +199,20 @@ public class Board {
         }
     }
 
+    public boolean isEmpty(int x, int y) {
+        return getFigur(x, y) == null;
+    }
+
+    public boolean isValidPosition(int x, int y) {
+        return x >= 0 && x < 8 && y >= 0 && y < 8;
+    }
+
+    public int getBreite() {
+        return board.length;
+    }
+    public int getHoehe() {
+        return board[0].length;
+    }
+
  
 }
