@@ -6,7 +6,7 @@ import Logic.Zug;
 
 public class Turm extends Schachfigur {
 
-
+    private ArrayList<Zug> zuege = new ArrayList<>(50);
 
     public Turm(String farbe, int x, int y, Board board) {
   
@@ -26,6 +26,7 @@ public class Turm extends Schachfigur {
         return 50;
     }
 
+    
 
     @Override
     public ArrayList<Zug> getMoeglicheZuege() {
@@ -33,7 +34,7 @@ public class Turm extends Schachfigur {
         int positionY = getPositionY();
         Board board = super.getBoard();
         boolean isWeiss = isWeiss();
-        ArrayList<Zug> zuege = new ArrayList<>();
+        zuege.clear(); // Clear previous moves to avoid duplicates
         int[][] directions = {{0, 1}, {0, -1}, {1, 0}, {-1, 0}}; // Up, Down, Right, Left
 
         for (int[] dir : directions) {

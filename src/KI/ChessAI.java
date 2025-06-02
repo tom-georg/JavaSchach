@@ -7,9 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.Vector;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
+
 
 /**
  * Main AI implementation using minimax algorithm with alpha-beta pruning.
@@ -24,11 +22,14 @@ public class ChessAI implements AIPlayer {
         this.difficulty = Math.max(1, difficulty); // Remove upper limit
         this.random = new Random();
     }
-    
+
     @Override
-    public Zug getBestMove(Board board, String color) {
-        // Get all possible moves
-        List<Zug> allMoves = getAllPossibleMoves(board, color);
+    public Zug getBestMove(Board board, boolean color) {
+             // Get all possible moves
+        String strColor = color ? "Weiss" : "Schwarz";
+        
+        
+        List<Zug> allMoves = getAllPossibleMoves(board, strColor);
         
         if (allMoves.isEmpty()) {
             return null; // No legal moves
@@ -46,8 +47,13 @@ public class ChessAI implements AIPlayer {
         } else {
             // Medium-Hard and beyond: Full minimax with alpha-beta pruning
             // Higher difficulty = deeper search
-            return getBestMoveMinimax(board, allMoves, color, searchDepth);
+            return getBestMoveMinimax(board, allMoves, strColor, searchDepth);
         }
+    }
+    
+   
+    public Zug getBestMovep(Board board, String color) {
+        return getBestMove(board, color.equals("Weiss"));
     }
     
     /**
@@ -74,10 +80,7 @@ public class ChessAI implements AIPlayer {
         }
     }
     
-    /**
-     * Simple move evaluation without deep search.
-     */
-    private Zug getBestMoveSimple(Board board, List<Zug> moves, String color) {
+    private Zug getBestMoveSimple(Board board, List<Zug> moves, boolean color) {
         Zug bestMove = null;
         int bestScore = Integer.MIN_VALUE;
         
@@ -92,11 +95,8 @@ public class ChessAI implements AIPlayer {
         
         return bestMove;
     }
-    
-    /**
-     * Evaluates a single move without making it on the board.
-     */
-    private int evaluateMove(Board board, Zug move, String color) {
+
+    private int evaluateMove(Board board, Zug move, boolean color) {
         int score = 0;
         
         // Capture bonus
@@ -109,12 +109,14 @@ public class ChessAI implements AIPlayer {
         score += (6 - centerDistance) * 5;
         
         // Piece development bonus (moving pieces from back rank)
-        if (move.getStartY() == (color.equals("Weiss") ? 7 : 0)) {
+        if (move.getStartY() ==  (color==Schachfigur.WEISS ? 7 : 0)) {
             score += 20;
         }
         
         return score;
     }
+    
+
     
     /**
      * Full minimax implementation with alpha-beta pruning.
@@ -158,7 +160,7 @@ public class ChessAI implements AIPlayer {
             return BoardEvaluator.evaluateBoard(board, aiColor);
         }
         
-        String currentColor = maximizing ? aiColor : (aiColor.equals("Weiss") ? "Schwarz" : "Weiss");
+        boolean currentColor = aiColor.equals("Weiss") ? Schachfigur.WEISS : Schachfigur.SCHWARZ;
         List<Zug> moves = getAllPossibleMoves(board, currentColor);
         
         if (moves.isEmpty()) {
@@ -200,18 +202,42 @@ public class ChessAI implements AIPlayer {
             return minEval;
         }
     }
-    
+
     /**
      * Gets all possible moves for a given color.
      */
-    private List<Zug> getAllPossibleMoves(Board board, String color) {
+    private List<Zug> getAllPossibleMoves(Board board, boolean color) {
         Vector<Zug> allMoves = new Vector<>(250);
+       
 
         for (int x = 0; x < 8; x++) {
             
             for (int y = 0; y < 8; y++) {
                 Schachfigur figur = board.getFigur(x, y);
-                if (figur != null && figur.getFarbeString().equals(color)) {
+                if (figur != null && figur.getFarbe() == color) {
+                    ArrayList<Zug> moves = figur.getMoeglicheZuege();
+                    for (Zug move : moves) {
+                        allMoves.add(move);
+                    }
+                }
+            }
+        }
+        
+        return allMoves;
+    }
+    
+    /**
+     * Gets all possible moves for a given color.
+     */
+    private List<Zug> getAllPossibleMoves(Board board, String ncolor) {
+        Vector<Zug> allMoves = new Vector<>(250);
+        boolean color = ncolor.equals("Weiss") ? Schachfigur.WEISS : Schachfigur.SCHWARZ;
+
+        for (int x = 0; x < 8; x++) {
+            
+            for (int y = 0; y < 8; y++) {
+                Schachfigur figur = board.getFigur(x, y);
+                if (figur != null && figur.getFarbe() == color) {
                     ArrayList<Zug> moves = figur.getMoeglicheZuege();
                     for (Zug move : moves) {
                         allMoves.add(move);
@@ -233,4 +259,6 @@ public class ChessAI implements AIPlayer {
     public void setDifficulty(int difficulty) {
         this.difficulty = Math.max(1, difficulty); // Remove upper limit
     }
+
+  
 }

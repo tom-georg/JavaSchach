@@ -34,6 +34,12 @@ public class ChessGui extends JFrame {
     private JLabel statusLabel;
     private JLabel turnLabel;
     private JButton newGameButton;
+    
+    // Fields to track last move for highlighting
+    private int lastMoveFromX = -1;
+    private int lastMoveFromY = -1;
+    private int lastMoveToX = -1;
+    private int lastMoveToY = -1;
 
     private final int SQUARE_SIZE = 80;
     private final Map<String, ImageIcon> pieceImages = new HashMap<>();
@@ -64,6 +70,13 @@ public class ChessGui extends JFrame {
                         } else {
                             g2d.setColor(new Color(118, 150, 86));  // Dark squares (e.g., "Lichess Green")
                         }
+                        
+                        // Highlight last move squares
+                        if ((col == lastMoveFromX && row == lastMoveFromY) || 
+                            (col == lastMoveToX && row == lastMoveToY)) {
+                            g2d.setColor(new Color(255, 255, 0, 120)); // Semi-transparent yellow for last move
+                        }
+                        
                         g2d.fillRect(col * SQUARE_SIZE, row * SQUARE_SIZE, SQUARE_SIZE, SQUARE_SIZE);
 
                         // Draw piece
@@ -213,6 +226,13 @@ public class ChessGui extends JFrame {
         board = new Board(); // Create new board
         currentTurn = "Weiss"; // White starts
         selectedFigur = null;
+        
+        // Clear last move highlighting
+        lastMoveFromX = -1;
+        lastMoveFromY = -1;
+        lastMoveToX = -1;
+        lastMoveToY = -1;
+        
         if (draggedFigurLabel != null) {
             layeredPane.remove(draggedFigurLabel);
             draggedFigurLabel = null;
@@ -240,7 +260,8 @@ public class ChessGui extends JFrame {
         SwingWorker<Zug, Void> aiWorker = new SwingWorker<Zug, Void>() {
             @Override
             protected Zug doInBackground() throws Exception {
-                return chessAI.getBestMove(board, aiColor);
+                boolean color = aiColor.equals("Weiss") ? Schachfigur.WEISS : Schachfigur.SCHWARZ;
+                return chessAI.getBestMove(board, color);
             }
             
             @Override
@@ -253,6 +274,12 @@ public class ChessGui extends JFrame {
                         if (capturedPiece != null) {
                             aiMove.setZielFigur(capturedPiece);
                         }
+                        
+                        // Update last move highlighting
+                        lastMoveFromX = aiMove.getStartX();
+                        lastMoveFromY = aiMove.getStartY();
+                        lastMoveToX = aiMove.getZielX();
+                        lastMoveToY = aiMove.getZielY();
                         
                         board.makeMove(aiMove);
                         currentTurn = currentTurn.equals("Weiss") ? "Schwarz" : "Weiss";
@@ -421,6 +448,12 @@ public class ChessGui extends JFrame {
                             chosenZug.setZielFigur(capturedPiece);
                         }
                         
+                        // Update last move highlighting
+                        lastMoveFromX = chosenZug.getStartX();
+                        lastMoveFromY = chosenZug.getStartY();
+                        lastMoveToX = chosenZug.getZielX();
+                        lastMoveToY = chosenZug.getZielY();
+                        
                         board.makeMove(chosenZug);
                         currentTurn = currentTurn.equals("Weiss") ? "Schwarz" : "Weiss";
                         updateStatusDisplay();
@@ -480,6 +513,12 @@ public class ChessGui extends JFrame {
                         if (capturedPiece != null) {
                             chosenZug.setZielFigur(capturedPiece);
                         }
+                        
+                        // Update last move highlighting
+                        lastMoveFromX = chosenZug.getStartX();
+                        lastMoveFromY = chosenZug.getStartY();
+                        lastMoveToX = chosenZug.getZielX();
+                        lastMoveToY = chosenZug.getZielY();
                         
                         board.makeMove(chosenZug);
                         currentTurn = currentTurn.equals("Weiss") ? "Schwarz" : "Weiss";

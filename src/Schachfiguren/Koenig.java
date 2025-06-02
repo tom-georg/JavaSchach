@@ -7,7 +7,7 @@ import Logic.Zug;
 public class Koenig extends Schachfigur {
 
 
-   
+   private ArrayList<Zug> zuege = new ArrayList<>(20);
 
     public Koenig(String farbe, int x, int y, Board board) {
         super(farbe, x, y, board);
@@ -33,7 +33,7 @@ public class Koenig extends Schachfigur {
         int positionY = getPositionY();
         Board board = super.getBoard();
         boolean farbe = isWeiss();
-        ArrayList<Zug> zuege = new ArrayList<>();
+        zuege.clear(); // Clear previous moves
         int[] dx = {-1, -1, -1, 0, 0, 1, 1, 1};
         int[] dy = {-1, 0, 1, -1, 1, -1, 0, 1};
 

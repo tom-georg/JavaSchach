@@ -27,45 +27,45 @@ public class Board {
     private void initializeBoard() {
         // Initialize pawns
         for (int i = 0; i < 8; i++) {
-            board[1][i] = new Bauer("Schwarz", i, 1, this);
-            board[6][i] = new Bauer("Weiss", i, 6, this);
+            board[i][1] = new Bauer("Schwarz", i, 1, this);
+            board[i][6] = new Bauer("Weiss", i, 6, this);
         }
 
         // Initialize rooks
         board[0][0] = new Turm("Schwarz", 0, 0, this);
-        board[0][7] = new Turm("Schwarz", 7, 0, this);
-        board[7][0] = new Turm("Weiss", 0, 7, this);
+        board[7][0] = new Turm("Schwarz", 7, 0, this);
+        board[0][7] = new Turm("Weiss", 0, 7, this);
         board[7][7] = new Turm("Weiss", 7, 7, this);
 
         // Initialize knights
-        board[0][1] = new Springer("Schwarz", 1, 0, this);
-        board[0][6] = new Springer("Schwarz", 6, 0, this);
-        board[7][1] = new Springer("Weiss", 1, 7, this);
-        board[7][6] = new Springer("Weiss", 6, 7, this);
+        board[1][0] = new Springer("Schwarz", 1, 0, this);
+        board[6][0] = new Springer("Schwarz", 6, 0, this);
+        board[1][7] = new Springer("Weiss", 1, 7, this);
+        board[6][7] = new Springer("Weiss", 6, 7, this);
 
         // Initialize bishops
-        board[0][2] = new Laeufer("Schwarz", 2, 0, this);
-        board[0][5] = new Laeufer("Schwarz", 5, 0, this);
-        board[7][2] = new Laeufer("Weiss", 2, 7, this);
-        board[7][5] = new Laeufer("Weiss", 5, 7, this);
+        board[2][0] = new Laeufer("Schwarz", 2, 0, this);
+        board[5][0] = new Laeufer("Schwarz", 5, 0, this);
+        board[2][7] = new Laeufer("Weiss", 2, 7, this);
+        board[5][7] = new Laeufer("Weiss", 5, 7, this);
 
         // Initialize queens and kings
-        board[0][3] = new Dame("Schwarz", 3, 0, this);
-        board[0][4] = new Koenig("Schwarz", 4, 0, this);
-        board[7][3] = new Dame("Weiss", 3, 7, this);
-        board[7][4] = new Koenig("Weiss", 4, 7, this);
+        board[3][0] = new Dame("Schwarz", 3, 0, this);
+        board[4][0] = new Koenig("Schwarz", 4, 0, this);
+        board[3][7] = new Dame("Weiss", 3, 7, this);
+        board[4][7] = new Koenig("Weiss", 4, 7, this);
     }
 
     public Schachfigur getFigur(int x, int y) {
         if (x < 0 || x >= 8 || y < 0 || y >= 8) {
             return null; // Out of bounds
         }
-        return board[y][x];
+        return board[x][y];
     }
 
     public void setPieceAt(int x, int y, Schachfigur piece) {
         if (x >= 0 && x < 8 && y >= 0 && y < 8) {
-            board[y][x] = piece;
+            board[x][y] = piece;
             if (piece != null) {
                 // Ensure the piece itself knows its new position if we are placing it.
                 // However, setPosition should ideally be called by the piece or move logic.
@@ -77,8 +77,8 @@ public class Board {
 
     public Schachfigur removePieceAt(int x, int y) {
         if (x >= 0 && x < 8 && y >= 0 && y < 8) {
-            Schachfigur piece = board[y][x];
-            board[y][x] = null;
+            Schachfigur piece = board[x][y];
+            board[x][y] = null;
             return piece;
         }
         return null;
@@ -112,8 +112,8 @@ public class Board {
         StringBuilder sb = new StringBuilder();
         for (int y = 7; y >= 0; y--) {
             for (int x = 0; x < 8; x++) {
-                if (board[y][x] != null) {
-                    sb.append(board[y][x].getName().charAt(0)).append(" ");
+                if (board[x][y] != null) {
+                    sb.append(board[x][y].getName().charAt(0)).append(" ");
                 } else {
                     sb.append(". ");
                 }

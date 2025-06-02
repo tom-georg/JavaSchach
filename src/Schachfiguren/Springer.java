@@ -6,7 +6,7 @@ import Logic.Zug;
 
 public class Springer extends Schachfigur {
 
-
+    private ArrayList<Zug> zuege = new ArrayList<>(50);
 
     public Springer(String farbe, int x, int y, Board board) {
         
@@ -33,7 +33,8 @@ public class Springer extends Schachfigur {
         int positionY = getPositionY();
         Board board = super.getBoard();
         boolean isWeiss = isWeiss();
-        ArrayList<Zug> zuege = new ArrayList<>();
+        zuege.clear(); // Clear previous moves to avoid duplicates
+        
         int[] dx = {-2, -2, -1, -1, 1, 1, 2, 2};
         int[] dy = {-1, 1, -2, 2, -2, 2, -1, 1};
 

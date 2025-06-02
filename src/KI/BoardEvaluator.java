@@ -12,8 +12,7 @@ import java.util.concurrent.Future;
  */
 public class BoardEvaluator {
     
-    private static final int CHECKMATE_VALUE = 10000;
-    private static final int STALEMATE_VALUE = 0;
+
     
     // Thread pool for parallelizing score calculations
     private static final ExecutorService executorService = Executors.newFixedThreadPool(5);
@@ -58,15 +57,15 @@ public class BoardEvaluator {
     /**
      * Calculates the material advantage for the given color.
      */
-    private static int calculateMaterialScore(Board board, String color) {
+    private static int calculateMaterialScore(Board board, String ncolor) {
         int score = 0;
-        
+        boolean color = ncolor.equals("Weiss");
         for (int x = 0; x < 8; x++) {
             for (int y = 0; y < 8; y++) {
                 Schachfigur figur = board.getFigur(x, y);
                 if (figur != null) {
                     int pieceValue = figur.getWert();
-                    if (figur.getFarbeString().equals(color)) {
+                    if (figur.getFarbe()== color) {
                         score += pieceValue;
                     } else {
                         score -= pieceValue;
@@ -81,16 +80,16 @@ public class BoardEvaluator {
     /**
      * Calculates positional advantages based on piece-square tables.
      */
-    private static int calculatePositionalScore(Board board, String color) {
+    private static int calculatePositionalScore(Board board, String ncolor) {
         int score = 0;
-        
+        boolean color = ncolor.equals("Weiss");
         for (int x = 0; x < 8; x++) {
             for (int y = 0; y < 8; y++) {
                 Schachfigur figur = board.getFigur(x, y);
                 if (figur != null) {
                     int positionalValue = getPositionalValue(figur, x, y);
                     
-                    if (figur.getFarbeString().equals(color)) {
+                    if (figur.getFarbe() == color) {
                         score += positionalValue;
                     } else {
                         score -= positionalValue;
@@ -193,6 +192,24 @@ public class BoardEvaluator {
         }
         
         return (ourMobility - opponentMobility) * 2; // Mobility factor
+    }
+
+    /**
+     * Checks if the game is in checkmate for the given color.
+     */
+    public static boolean isCheckmate(Board board, boolean color) {
+        // Simple implementation - if no legal moves and king is in check
+        for (int x = 0; x < 8; x++) {
+            for (int y = 0; y < 8; y++) {
+                Schachfigur figur = board.getFigur(x, y);
+                if (figur != null && figur.getFarbe() == color) {
+                    if (figur.getMoeglicheZuege().size() > 0) {
+                        return false; // Has at least one legal move
+                    }
+                }
+            }
+        }
+        return true; // No legal moves found
     }
     
     /**

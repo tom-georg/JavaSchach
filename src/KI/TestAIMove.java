@@ -1,6 +1,7 @@
 package KI;
 import Logic.Board;
 import Logic.Zug;
+import Schachfiguren.Schachfigur;
 
 public class TestAIMove {
     public static void main(String[] args) {
@@ -15,7 +16,7 @@ public class TestAIMove {
         
         // Let AI make a move as black
         System.out.println("AI (Black) is thinking...");
-        Zug aiMove = ai.getBestMove(board, "Schwarz");
+        Zug aiMove = ai.getBestMove(board, Schachfigur.SCHWARZ);
         
         if (aiMove != null) {
             System.out.println("AI chose move: " + aiMove);

@@ -7,6 +7,7 @@ import Logic.Zug;
 public class Laeufer extends Schachfigur {
 
 
+    private ArrayList<Zug> zuege = new ArrayList<>(20);
     public Laeufer(String farbe, int x, int y, Board board) {
         super(farbe, x, y, board);
   
@@ -26,14 +27,15 @@ public class Laeufer extends Schachfigur {
     }
 
 
-
+    
     @Override
     public ArrayList<Zug> getMoeglicheZuege() {
         int positionX = getPositionX();
         int positionY = getPositionY();
         Board board = super.getBoard();
         boolean isWeiss = isWeiss();
-        ArrayList<Zug> zuege = new ArrayList<>();
+        zuege.clear(); // Clear previous moves
+        
         int[][] directions = {{1, 1}, {1, -1}, {-1, 1}, {-1, -1}}; // Diagonal directions
 
         for (int[] dir : directions) {

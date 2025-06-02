@@ -1,6 +1,7 @@
 package KI;
 import Logic.Board;
 import Logic.Zug;
+import Schachfiguren.Schachfigur;
 
 public class TestAIBothColors {
     public static void main(String[] args) {
@@ -8,7 +9,7 @@ public class TestAIBothColors {
         
         // Create a new board
         Board board = new Board();
-        ChessAI ai = new ChessAI(5); // Medium difficulty
+        ChessAI ai = new ChessAI(4); // Medium difficulty
         
         System.out.println("Initial board state:");
         printBoardWithCoordinates(board);
@@ -22,7 +23,7 @@ public class TestAIBothColors {
             // Let AI make a move as white first
             System.out.println("\nAI (White) is thinking...");
             startTime = System.nanoTime();
-            Zug whiteMove = ai.getBestMove(board, "Weiss");
+            Zug whiteMove = ai.getBestMove(board, Schachfigur.WEISS);
             endTime = System.nanoTime();
             totalWhiteTime += (endTime - startTime);
             
@@ -46,7 +47,7 @@ public class TestAIBothColors {
             // Now let AI make a move as black
             System.out.println("\nAI (Black) is thinking...");
             startTime = System.nanoTime();
-            Zug blackMove = ai.getBestMove(board, "Schwarz");
+            Zug blackMove = ai.getBestMove(board, Schachfigur.SCHWARZ);
             endTime = System.nanoTime();
             totalBlackTime += (endTime - startTime);
             

@@ -8,7 +8,7 @@ public class Bauer extends Schachfigur {
 
     
 
-
+    private ArrayList<Zug> zuege = new ArrayList<>(20);
     public Bauer(String farbe, int x, int y, Board board) {
         super(farbe, x, y, board);
        
@@ -25,12 +25,13 @@ public class Bauer extends Schachfigur {
     public int getWert() {
         return 10;
     }
-
+    
     @Override
     public ArrayList<Zug> getMoeglicheZuege() {
         Board board = super.getBoard();
         boolean farbe = isWeiss();
-        ArrayList<Zug> zuege = new ArrayList<>();
+        zuege.clear(); // Clear previous moves
+        
         int zielX, zielY;
         int richtung = isSchwarz() ? 1 : -1; // Schwarz moves +1 in Y, Weiss moves -1 in Y
 

@@ -15,7 +15,9 @@ public interface AIPlayer {
      * @param color The color of the AI player ("Weiss" or "Schwarz")
      * @return The best move found by the AI
      */
-    Zug getBestMove(Board board, String color);
+    //Zug getBestMove(Board board, String color);
+
+    Zug getBestMove(Board board, boolean color);
     
     /**
      * Gets the difficulty level of the AI.

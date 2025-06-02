@@ -1,6 +1,7 @@
 package KI;
 import Logic.Board;
 import Logic.Zug;
+import Schachfiguren.Schachfigur;
 
 /**
  * Simple test class to verify AI functionality
@@ -18,7 +19,7 @@ public class TestAI {
         
         // Test AI move for white
         System.out.println("\nGetting AI move for White...");
-        Zug aiMove = ai.getBestMove(board, "Weiss");
+        Zug aiMove = ai.getBestMove(board, Schachfigur.WEISS);
         
         if (aiMove != null) {
             System.out.println("AI suggests move: " + aiMove.toString());
@@ -26,7 +27,7 @@ public class TestAI {
             // Test different difficulty levels
             for (int difficulty = 1; difficulty <= 5; difficulty++) {
                 ai.setDifficulty(difficulty);
-                Zug move = ai.getBestMove(board, "Weiss");
+                Zug move = ai.getBestMove(board, Schachfigur.WEISS);
                 System.out.println("Difficulty " + difficulty + " suggests: " + 
                     (move != null ? move.toString() : "No move"));
             }

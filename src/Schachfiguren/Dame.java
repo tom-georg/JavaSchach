@@ -6,7 +6,7 @@ import Logic.Zug;
 
 public class Dame extends Schachfigur {
 
-
+    private ArrayList<Zug> zuege = new ArrayList<>(20);
 
     public Dame(String farbe, int x, int y, Board board) {
         super(farbe, x, y, board);
@@ -32,7 +32,8 @@ public class Dame extends Schachfigur {
         int positionY = getPositionY();
         Board board = super.getBoard();
         boolean isWeiss = isWeiss();
-        ArrayList<Zug> zuege = new ArrayList<>();
+        zuege.clear(); // Clear previous moves
+        
         // Combines Rook and Bishop logic
         int[][] directions = {
             {0, 1}, {0, -1}, {1, 0}, {-1, 0}, // Rook directions
