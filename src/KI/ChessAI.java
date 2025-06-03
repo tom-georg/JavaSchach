@@ -160,14 +160,27 @@ public class ChessAI implements AIPlayer {
             return BoardEvaluator.evaluateBoard(board, aiColor);
         }
         
-        boolean currentColor = aiColor.equals("Weiss") ? Schachfigur.WEISS : Schachfigur.SCHWARZ;
-        List<Zug> moves = getAllPossibleMoves(board, currentColor);
+        boolean playerBooleanColorForCurrentTurn;
+        String playerStringColorForCurrentTurn;
+
+        if (maximizing) { // AI's turn (the one calling minimax initially)
+            playerBooleanColorForCurrentTurn = aiColor.equals("Weiss") ? Schachfigur.WEISS : Schachfigur.SCHWARZ;
+            playerStringColorForCurrentTurn = aiColor;
+        } else { // Opponent's turn
+            playerBooleanColorForCurrentTurn = aiColor.equals("Weiss") ? Schachfigur.SCHWARZ : Schachfigur.WEISS;
+            playerStringColorForCurrentTurn = aiColor.equals("Weiss") ? "Schwarz" : "Weiss";
+        }
+        
+        List<Zug> moves = getAllPossibleMoves(board, playerBooleanColorForCurrentTurn);
         
         if (moves.isEmpty()) {
-            // No legal moves - checkmate or stalemate
-            if (BoardEvaluator.isCheckmate(board, currentColor)) {
-                return maximizing ? -10000 + depth : 10000 - depth; // Prefer quicker checkmates
+            // No legal moves for playerStringColorForCurrentTurn.
+            // Check if this player is in check to distinguish checkmate from stalemate.
+            if (BoardEvaluator.isCheckmate(board, playerStringColorForCurrentTurn)) {
+
+                return maximizing ? (-100000 + depth) : (100000 - depth); // Prefer quicker checkmates/slower losses
             } else {
+                // Current player (playerStringColorForCurrentTurn) is stalemated.
                 return 0; // Stalemate
             }
         }
@@ -176,7 +189,7 @@ public class ChessAI implements AIPlayer {
             int maxEval = Integer.MIN_VALUE;
             for (Zug move : moves) {
                 board.makeMove(move);
-                int eval = minimax(board, depth - 1, alpha, beta, false, aiColor);
+                int eval = minimax(board, depth - 1, alpha, beta, false, aiColor); // Pass aiColor consistently
                 board.undoLastMove();
                 
                 maxEval = Math.max(maxEval, eval);
@@ -190,7 +203,7 @@ public class ChessAI implements AIPlayer {
             int minEval = Integer.MAX_VALUE;
             for (Zug move : moves) {
                 board.makeMove(move);
-                int eval = minimax(board, depth - 1, alpha, beta, true, aiColor);
+                int eval = minimax(board, depth - 1, alpha, beta, true, aiColor); // Pass aiColor consistently
                 board.undoLastMove();
                 
                 minEval = Math.min(minEval, eval);
@@ -207,7 +220,7 @@ public class ChessAI implements AIPlayer {
      * Gets all possible moves for a given color.
      */
     private List<Zug> getAllPossibleMoves(Board board, boolean color) {
-        Vector<Zug> allMoves = new Vector<>(250);
+        ArrayList<Zug> allMoves = new ArrayList<>(250);
        
 
         for (int x = 0; x < 8; x++) {
@@ -230,7 +243,7 @@ public class ChessAI implements AIPlayer {
      * Gets all possible moves for a given color.
      */
     private List<Zug> getAllPossibleMoves(Board board, String ncolor) {
-        Vector<Zug> allMoves = new Vector<>(250);
+        ArrayList<Zug> allMoves = new ArrayList<>(250);
         boolean color = ncolor.equals("Weiss") ? Schachfigur.WEISS : Schachfigur.SCHWARZ;
 
         for (int x = 0; x < 8; x++) {
@@ -239,9 +252,7 @@ public class ChessAI implements AIPlayer {
                 Schachfigur figur = board.getFigur(x, y);
                 if (figur != null && figur.getFarbe() == color) {
                     ArrayList<Zug> moves = figur.getMoeglicheZuege();
-                    for (Zug move : moves) {
-                        allMoves.add(move);
-                    }
+                    allMoves.addAll(moves);
                 }
             }
         }
