@@ -161,14 +161,14 @@ public class ChessAI implements AIPlayer {
         }
         
         boolean playerBooleanColorForCurrentTurn;
-        String playerStringColorForCurrentTurn;
+        
 
         if (maximizing) { // AI's turn (the one calling minimax initially)
             playerBooleanColorForCurrentTurn = aiColor.equals("Weiss") ? Schachfigur.WEISS : Schachfigur.SCHWARZ;
-            playerStringColorForCurrentTurn = aiColor;
+            
         } else { // Opponent's turn
             playerBooleanColorForCurrentTurn = aiColor.equals("Weiss") ? Schachfigur.SCHWARZ : Schachfigur.WEISS;
-            playerStringColorForCurrentTurn = aiColor.equals("Weiss") ? "Schwarz" : "Weiss";
+            
         }
         
         List<Zug> moves = getAllPossibleMoves(board, playerBooleanColorForCurrentTurn);
@@ -176,7 +176,7 @@ public class ChessAI implements AIPlayer {
         if (moves.isEmpty()) {
             // No legal moves for playerStringColorForCurrentTurn.
             // Check if this player is in check to distinguish checkmate from stalemate.
-            if (BoardEvaluator.isCheckmate(board, playerStringColorForCurrentTurn)) {
+            if (BoardEvaluator.isCheckmate(board, playerBooleanColorForCurrentTurn)) {
 
                 return maximizing ? (-100000 + depth) : (100000 - depth); // Prefer quicker checkmates/slower losses
             } else {

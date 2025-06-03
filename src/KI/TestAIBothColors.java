@@ -9,7 +9,7 @@ public class TestAIBothColors {
         
         // Create a new board
         Board board = new Board();
-        ChessAI ai = new ChessAI(5); // Medium difficulty
+        ChessAI ai = new ChessAI(4); // Medium difficulty
         
         System.out.println("Initial board state:");
         printBoardWithCoordinates(board);

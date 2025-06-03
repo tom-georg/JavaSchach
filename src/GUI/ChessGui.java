@@ -33,6 +33,8 @@ public class ChessGui extends JFrame {
     private JComboBox<String> difficultyComboBox;
     private JLabel statusLabel;
     private JLabel turnLabel;
+    private JLabel whiteEvaluationLabel; // Renamed for clarity
+    private JLabel blackEvaluationLabel; // New label for Black's evaluation
     private JButton newGameButton;
     
     // Fields to track last move for highlighting
@@ -127,6 +129,7 @@ public class ChessGui extends JFrame {
         setVisible(true);
         
         updateStatusDisplay();
+        updateEvaluationDisplay(); // Initial evaluation display
     }
 
     private void createControlPanels() {
@@ -185,6 +188,7 @@ public class ChessGui extends JFrame {
                 draggedFigurLabel = null;
             }
             updateStatusDisplay();
+            updateEvaluationDisplay(); // Update evaluation after undo
             boardPanel.repaint();
             layeredPane.repaint();
         });
@@ -200,9 +204,15 @@ public class ChessGui extends JFrame {
         JPanel statusPanel = new JPanel(new FlowLayout());
         turnLabel = new JLabel();
         statusLabel = new JLabel();
+        whiteEvaluationLabel = new JLabel(); // Initialize the white eval label
+        blackEvaluationLabel = new JLabel(); // Initialize the black eval label
         statusPanel.add(turnLabel);
         statusPanel.add(Box.createHorizontalStrut(20));
         statusPanel.add(statusLabel);
+        statusPanel.add(Box.createHorizontalStrut(20)); 
+        statusPanel.add(whiteEvaluationLabel); // Add white's evaluation label
+        statusPanel.add(Box.createHorizontalStrut(10)); // Spacing between eval labels
+        statusPanel.add(blackEvaluationLabel); // Add black's evaluation label
         
         bottomPanel.add(buttonPanel, BorderLayout.NORTH);
         bottomPanel.add(statusPanel, BorderLayout.SOUTH);
@@ -215,6 +225,7 @@ public class ChessGui extends JFrame {
         aiEnabled = !aiEnabled;
         aiToggleButton.setText(aiEnabled ? "Disable AI" : "Enable AI");
         updateStatusDisplay();
+        updateEvaluationDisplay(); // Update evaluation when AI status changes
         
         // If AI is enabled and it's AI's turn, make AI move
         if (aiEnabled && currentTurn.equals(aiColor)) {
@@ -238,6 +249,7 @@ public class ChessGui extends JFrame {
             draggedFigurLabel = null;
         }
         updateStatusDisplay();
+        updateEvaluationDisplay(); // Update evaluation on new game
         boardPanel.repaint();
         layeredPane.repaint();
         
@@ -284,6 +296,7 @@ public class ChessGui extends JFrame {
                         board.makeMove(aiMove);
                         currentTurn = currentTurn.equals("Weiss") ? "Schwarz" : "Weiss";
                         updateStatusDisplay();
+                        updateEvaluationDisplay(); // Update evaluation after AI move
                         boardPanel.repaint();
                         layeredPane.repaint();
                         
@@ -330,6 +343,23 @@ public class ChessGui extends JFrame {
         } else {
             statusLabel.setText("Player vs Player");
         }
+        // It's better to call updateEvaluationDisplay separately 
+        // as it might be computationally more intensive and not always tied to status text.
+    }
+    
+    private void updateEvaluationDisplay() {
+        if (board == null) return;
+        
+        // Evaluation for White
+        int whiteEval = BoardEvaluator.evaluateBoard(board, "Weiss");
+        whiteEvaluationLabel.setText("White Eval: " + whiteEval);
+        
+        // Evaluation for Black
+        // Note: BoardEvaluator.evaluateBoard(board, "Schwarz") gives score from Black's perspective.
+        // If you want Black's score relative to White's evaluation (i.e., if White's eval is X, Black's is -X),
+        // you could use -whiteEval. However, it's more standard to evaluate independently.
+        int blackEval = BoardEvaluator.evaluateBoard(board, "Schwarz");
+        blackEvaluationLabel.setText("Black Eval: " + blackEval);
     }
     
     private boolean isPlayerTurn() {
@@ -457,6 +487,7 @@ public class ChessGui extends JFrame {
                         board.makeMove(chosenZug);
                         currentTurn = currentTurn.equals("Weiss") ? "Schwarz" : "Weiss";
                         updateStatusDisplay();
+                        updateEvaluationDisplay(); // Update evaluation after player move
                         
                         // If a drag was in progress, remove the label as the piece is now on the board via paintComponent
                         if (draggedFigurLabel != null) {
@@ -523,6 +554,7 @@ public class ChessGui extends JFrame {
                         board.makeMove(chosenZug);
                         currentTurn = currentTurn.equals("Weiss") ? "Schwarz" : "Weiss";
                         updateStatusDisplay();
+                        updateEvaluationDisplay(); // Update evaluation after player move (drag-release)
                         
                         // Check for game end
                         checkGameEnd();

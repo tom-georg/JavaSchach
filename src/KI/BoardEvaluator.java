@@ -29,7 +29,7 @@ public class BoardEvaluator {
    
         Future<Integer> materialFuture = executorService.submit(() -> calculateMaterialScore(board, color));
         Future<Integer> positionalFuture = executorService.submit(() -> calculatePositionalScore(board, color));
-        Future<Integer> mobilityFuture = executorService.submit(() -> calculateMobilityScore(board, color));
+        //Future<Integer> mobilityFuture = executorService.submit(() -> calculateMobilityScore(board, color));
 
         int materialScore = 0;
         int positionalScore = 0;
@@ -38,7 +38,7 @@ public class BoardEvaluator {
         try {
             materialScore = materialFuture.get();
             positionalScore = positionalFuture.get();
-            mobilityScore = mobilityFuture.get();
+            //mobilityScore = mobilityFuture.get();
         } catch (InterruptedException | ExecutionException e) {
             e.printStackTrace(); 
             return materialScore + positionalScore + mobilityScore; // Return whatever was computed
@@ -212,48 +212,35 @@ public class BoardEvaluator {
         return true; // No legal moves found
     }
     
-    /**
-     * Checks if the game is in checkmate for the given color.
-     */
-    public static boolean isCheckmate(Board board, String color) {
-        // Simple implementation - if no legal moves and king is in check
-        for (int x = 0; x < 8; x++) {
-            for (int y = 0; y < 8; y++) {
-                Schachfigur figur = board.getFigur(x, y);
-                if (figur != null && figur.getFarbeString().equals(color)) {
-                    if (figur.getMoeglicheZuege().size() > 0) {
-                        return false; // Has at least one legal move
-                    }
-                }
-            }
-        }
-        return true; // No legal moves found
-    }
     
     /**
      * Checks if the position is a stalemate.
      */
     public static boolean isStalemate(Board board, String color) {
         // If no legal moves but not in check (simplified implementation)
-        return isCheckmate(board, color) && !isInCheck(board, color);
+        boolean nColor = color.equals("Weiss");
+        return isCheckmate(board, nColor) && !isInCheck(board, nColor);
     }
-    
+
     /**
      * Simple check detection (can be improved).
      */
-    private static boolean isInCheck(Board board, String color) {
+    private static boolean isInCheck(Board board, boolean color) {
+        String colorString = color ? "Weiss" : "Schwarz";
         // Find the king
         for (int x = 0; x < 8; x++) {
             for (int y = 0; y < 8; y++) {
                 Schachfigur figur = board.getFigur(x, y);
-                if (figur != null && figur.getName().equals("Koenig") && figur.getFarbeString().equals(color)) {
+                if (figur != null && figur.getName().equals("Koenig") && figur.getFarbe() == color) {
                     // Check if any opponent piece can attack this square
-                    return isSquareUnderAttack(board, x, y, color);
+                    return isSquareUnderAttack(board, x, y, colorString);
                 }
             }
         }
         return false;
     }
+    
+
     
     /**
      * Checks if a square is under attack by the opponent.

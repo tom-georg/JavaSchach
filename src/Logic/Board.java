@@ -1,5 +1,6 @@
 package Logic;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import Schachfiguren.*;
@@ -8,6 +9,8 @@ public class Board {
 
     private Schachfigur[][] board;
     private ArrayList<Zug> zugHistorie;
+    private ArrayList<Schachfigur> piecesWhite = new ArrayList<>();
+    private ArrayList<Schachfigur> piecesBlack = new ArrayList<>();
 
     public Board() {
         board = new Schachfigur[8][8];
@@ -54,7 +57,31 @@ public class Board {
         board[4][0] = new Koenig("Schwarz", 4, 0, this);
         board[3][7] = new Dame("Weiss", 3, 7, this);
         board[4][7] = new Koenig("Weiss", 4, 7, this);
+
+        addAllPiecesToHashmaps();
     }
+
+    private void addAllPiecesToHashmaps() {
+        for (int x = 0; x < 8; x++) {
+            for (int y = 0; y < 8; y++) {
+                Schachfigur piece = board[x][y];
+                if (piece != null) {
+                    addSchachfigurToList(piece);
+                }
+            }
+        }
+    }
+
+
+    private void addSchachfigurToList(Schachfigur piece) {
+        if (piece.getFarbeString().equals("Weiss")) {
+            piecesWhite.add(piece);
+        } else {
+            piecesBlack.add(piece);
+        }
+    }
+
+    
 
     public Schachfigur getFigur(int x, int y) {
         if (x < 0 || x >= 8 || y < 0 || y >= 8) {
@@ -62,6 +89,8 @@ public class Board {
         }
         return board[x][y];
     }
+
+     
 
     public void setPieceAt(int x, int y, Schachfigur piece) {
         if (x >= 0 && x < 8 && y >= 0 && y < 8) {
