@@ -9,8 +9,8 @@ public class Board {
 
     private Schachfigur[][] board;
     private ArrayList<Zug> zugHistorie;
-    private ArrayList<Schachfigur> piecesWhite = new ArrayList<>();
-    private ArrayList<Schachfigur> piecesBlack = new ArrayList<>();
+    private List<Schachfigur> piecesWhite = new ArrayList<>();
+    private List<Schachfigur> piecesBlack = new ArrayList<>();
 
     public Board() {
         board = new Schachfigur[8][8];
@@ -72,7 +72,6 @@ public class Board {
         }
     }
 
-
     private void addSchachfigurToList(Schachfigur piece) {
         if (piece.getFarbeString().equals("Weiss")) {
             piecesWhite.add(piece);
@@ -81,7 +80,19 @@ public class Board {
         }
     }
 
+    /**
+     * Get all pieces of a specific color.
+     */
+    public List<Schachfigur> getPiecesByColor(boolean color) {
+        if (color) {
+            return new ArrayList<>(piecesWhite);
+        } else {
+            return new ArrayList<>(piecesBlack);
+        }
+    }
+
     
+
 
     public Schachfigur getFigur(int x, int y) {
         if (x < 0 || x >= 8 || y < 0 || y >= 8) {
@@ -108,6 +119,14 @@ public class Board {
         if (x >= 0 && x < 8 && y >= 0 && y < 8) {
             Schachfigur piece = board[x][y];
             board[x][y] = null;
+            if (piece != null) {
+                // Remove the piece from the respective color list
+                if (piece.getFarbeString().equals("Weiss")) {
+                    piecesWhite.remove(piece);
+                } else {
+                    piecesBlack.remove(piece);
+                }
+            }
             return piece;
         }
         return null;
@@ -173,6 +192,8 @@ public class Board {
             
             // Restore piece to old position
             setPieceAt(startX, startY, figur);
+
+
             
             // Update the piece's internal position
             figur.setPosition(startX, startY);
@@ -180,6 +201,13 @@ public class Board {
             // If there was a captured piece, restore it
             if (capturedFigur != null) {
                 setPieceAt(zielX, zielY, capturedFigur);
+
+                // Add the captured piece back to the respective color list
+                if (capturedFigur.getFarbeString().equals("Weiss")) {
+                    piecesWhite.add(capturedFigur);
+                } else {
+                    piecesBlack.add(capturedFigur);
+                }
                 // Also update the captured piece's internal position if it's tracked,
                 // though for a captured piece, its position on board is what matters.
                 // capturedFigur.setPosition(zielX, zielY); // This might not be necessary if it's re-added correctly
